@@ -106,33 +106,37 @@ public class UserFetcher {
 
 
         if(!StringUtils.isNullOrWhitespace(userInfo.getFamilyName())){
-            appendParameter(ApiConstants.PATIENT_API_PARAMETER_FAMILY, userInfo.getFamilyName(), isFirst, url);
+            appendParameter(ApiConstants.PATIENT_API_PARAMETER_FAMILY, userInfo.getFamilyName(),isFirst, url);
+            isFirst = false;
         }
         if(!StringUtils.isNullOrWhitespace(userInfo.getGivenName())){
             appendParameter(ApiConstants.PATIENT_API_PARAMETER_GIVEN,userInfo.getGivenName(),isFirst,url);
+            isFirst = false;
         }
         if(!StringUtils.isNullOrWhitespace(userInfo.getAddress())){
             appendParameter(ApiConstants.PATIENT_API_PARAMETER_ADDRESS,userInfo.getAddress(),isFirst,url);
+            isFirst = false;
         }
         if(!StringUtils.isNullOrWhitespace(userInfo.getGender())){
             appendParameter(ApiConstants.PATIENT_API_PARAMETER_GENDER,userInfo.getGender(),isFirst,url);
+            isFirst = false;
         }
         if(!StringUtils.isNullOrWhitespace(userInfo.getTelecom())){
             appendParameter(ApiConstants.PATIENT_API_PARAMETER_TELECOM,userInfo.getTelecom(),isFirst,url);
+            isFirst = false;
         }
         if(!StringUtils.isNullOrWhitespace(userInfo.getBirthDate())){
             appendParameter(ApiConstants.PATIENT_API_PARAMETER_BIRTHDATE,userInfo.getTelecom(),isFirst,url);
+            isFirst = false;
         }
 
         return new URL(url.toString());
     }
 
-    private void appendParameter(String paramName, String paramValue, boolean isFirst, StringBuilder builder){
+    private void appendParameter(String paramName, String paramValue, boolean isFirst,StringBuilder builder){
 
-        if(!isFirst)
-            builder.append("&");
-        else
-            isFirst = false;
+        if(isFirst)
+            builder.append(StringUtils.encodeParameter("&"));
 
         builder.append(paramName);
         builder.append("=");
