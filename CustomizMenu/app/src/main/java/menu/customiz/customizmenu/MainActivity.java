@@ -48,22 +48,22 @@ public class MainActivity extends Activity {
                 UserInfo userInfo = new UserInfo();
 
                 EditText givenName = (EditText)findViewById(R.id.firstNameTextField);
-                userInfo.setGivenName(givenName.getText().toString());
+                userInfo.setGivenName(givenName.getText().toString().trim());
 
                 EditText familyName = (EditText)findViewById(R.id.lastNameTextField);
-                userInfo.setFamilyName(familyName.getText().toString());
+                userInfo.setFamilyName(familyName.getText().toString().trim());
 
                 EditText address = (EditText)findViewById(R.id.addressTextField);
-                userInfo.setAddress(address.getText().toString());
+                userInfo.setAddress(address.getText().toString().trim());
 
                 EditText dOB = (EditText)findViewById(R.id.dobTextField);
-                userInfo.setAddress(dOB.getText().toString());
+                userInfo.setAddress(dOB.getText().toString().trim());
 
                 //Spinner gender = (Spinner)findViewById(R.id.gender_spinner);
                 //userInfo.setAddress(gender.g);
 
                 EditText telephone = (EditText)findViewById(R.id.phoneNumberTextField);
-                userInfo.setTelecom(telephone.getText().toString());
+                userInfo.setTelecom(telephone.getText().toString().trim());
 
                 UserFetcher fetcher = new UserFetcher(userInfo);
                 String userId = fetcher.fetchUserId();
