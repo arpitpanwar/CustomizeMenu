@@ -28,4 +28,16 @@ public class Menu implements IMenu {
     public List<ICourse> getCourseList() {
         return courseList;
     }
+
+    public void setRestaurantName(String restaurantName){
+        this.restaurantName = restaurantName;
+    }
+
+    public void setRestaurantDescription(String restaurantDescription){
+        this.restaurantDescription = restaurantDescription;
+    }
+
+    public void setCourseList(List<ICourse> courseList){
+        this.courseList = courseList;
+    }
 }

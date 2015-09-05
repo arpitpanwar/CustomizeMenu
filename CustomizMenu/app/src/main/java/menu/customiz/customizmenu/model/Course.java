@@ -10,6 +10,14 @@ import menu.customiz.customizmenu.ifaces.IItem;
  */
 public class Course implements ICourse {
 
+    public void setCourseName(String courseName) {
+        this.courseName = courseName;
+    }
+
+    public void setItems(List<IItem> items) {
+        this.items = items;
+    }
+
     private String courseName;
     private List<IItem> items;
 
