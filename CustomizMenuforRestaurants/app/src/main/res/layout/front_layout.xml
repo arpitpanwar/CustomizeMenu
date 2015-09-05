@@ -14,7 +14,8 @@
         android:layout_marginTop="104dp"
         android:layout_alignParentTop="true"
         android:layout_alignRight="@+id/button3"
-        android:layout_alignEnd="@+id/button3" />
+        android:layout_alignEnd="@+id/button3"
+        android:onClick="openAddCourseActivity"/>
 
     <Button
         android:layout_width="wrap_content"
