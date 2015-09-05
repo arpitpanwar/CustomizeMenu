@@ -14,6 +14,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 
+import javax.net.ssl.HttpsURLConnection;
+
 import menu.customiz.customizmenu.constants.ApiConstants;
 import menu.customiz.customizmenu.model.UserInfo;
 import menu.customiz.customizmenu.utils.StringUtils;
@@ -79,12 +81,10 @@ public class UserFetcher {
         try{
             String data="";
             StringBuilder jsonData = new StringBuilder();
-            URLConnection conn = url.openConnection();
-            Log.d(TAG, "Data1: " + data);
+            HttpsURLConnection conn = (HttpsURLConnection)url.openConnection();
+            conn.setRequestProperty("Accept","application/json");
             InputStream stream = conn.getInputStream();
-            Log.d(TAG, "Data2: " + data);
             BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
-            Log.d(TAG, "Data3: " + data);
             while(null != (data = reader.readLine())){
                 Log.d(TAG, "Data4: " + data);
                 jsonData.append(data);
@@ -102,7 +102,7 @@ public class UserFetcher {
 
     private URL generateRequestUrl() throws MalformedURLException{
 
-        Boolean isFirst = new Boolean(true);
+        boolean isFirst = true;
         StringBuilder url = new StringBuilder();
         url.append(ApiConstants.API_BASE_URL+ApiConstants.PATIENT_API_PATH);
         url.append("?");
@@ -139,9 +139,8 @@ public class UserFetcher {
 
     private void appendParameter(String paramName, String paramValue, boolean isFirst,StringBuilder builder){
 
-        if(isFirst)
-            builder.append(StringUtils.encodeParameter("&"));
-
+        if(!isFirst)
+            builder.append("&");
 
         builder.append(paramName);
         builder.append("=");
