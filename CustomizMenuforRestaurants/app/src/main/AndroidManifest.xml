@@ -24,6 +24,10 @@
             android:name=".AddItemsActivity"
             android:label="@string/title_activity_add_items" >
         </activity>
+        <activity
+            android:name=".DisplayCourseClass"
+            android:label="@string/title_activity_add_items" >
+        </activity>
     </application>
 
 </manifest>
