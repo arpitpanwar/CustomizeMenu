@@ -1,4 +1,4 @@
-package menu.customiz.customizmenu.IFaces;
+package menu.customiz.customizmenu.ifaces;
 
 import java.io.Serializable;
 
@@ -7,8 +7,8 @@ import java.io.Serializable;
  */
 public interface IIngredient extends Serializable {
 
-    public String getName();
+    String getName();
 
-    public String getCommonName();
+    String getCommonName();
 
 }

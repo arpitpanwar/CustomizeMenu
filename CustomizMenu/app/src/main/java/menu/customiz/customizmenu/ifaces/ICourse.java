@@ -1,4 +1,4 @@
-package menu.customiz.customizmenu.IFaces;
+package menu.customiz.customizmenu.ifaces;
 
 import java.io.Serializable;
 import java.util.List;
@@ -8,9 +8,9 @@ import java.util.List;
  */
 public interface ICourse extends Serializable{
 
-    public String getCourseName();
+    String getCourseName();
 
-    public List<IItem> getItems();
+    List<IItem> getItems();
 
 
 }
