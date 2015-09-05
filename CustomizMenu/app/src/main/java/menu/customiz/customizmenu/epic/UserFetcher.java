@@ -80,10 +80,13 @@ public class UserFetcher {
             String data="";
             StringBuilder jsonData = new StringBuilder();
             URLConnection conn = url.openConnection();
+            Log.d(TAG, "Data1: " + data);
             InputStream stream = conn.getInputStream();
+            Log.d(TAG, "Data2: " + data);
             BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
-
+            Log.d(TAG, "Data3: " + data);
             while(null != (data = reader.readLine())){
+                Log.d(TAG, "Data4: " + data);
                 jsonData.append(data);
             }
             stream.close();
@@ -99,7 +102,7 @@ public class UserFetcher {
 
     private URL generateRequestUrl() throws MalformedURLException{
 
-        boolean isFirst = true;
+        Boolean isFirst = new Boolean(true);
         StringBuilder url = new StringBuilder();
         url.append(ApiConstants.API_BASE_URL+ApiConstants.PATIENT_API_PATH);
         url.append("?");
@@ -127,12 +130,12 @@ public class UserFetcher {
         return new URL(url.toString());
     }
 
-    private void appendParameter(String paramName, String paramValue, boolean isFirst, StringBuilder builder){
+    private void appendParameter(String paramName, String paramValue, Boolean isFirst, StringBuilder builder){
 
         if(!isFirst)
             builder.append("&");
         else
-            isFirst = false;
+            isFirst = new Boolean(false);
 
         builder.append(paramName);
         builder.append("=");
