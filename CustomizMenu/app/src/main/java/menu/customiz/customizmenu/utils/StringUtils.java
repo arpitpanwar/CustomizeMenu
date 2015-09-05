@@ -32,17 +32,20 @@ public class StringUtils {
     }
 
     private static boolean isWhitespace(String s){
+        s=s.trim();
         int length = s.length();
+        boolean isWhiteSpace = true;
         if (length > 0) {
-            for (int start = 0, middle = length / 2, end = length - 1; start <= middle; start++, end--) {
-                if (!Character.isSpaceChar(s.charAt(start)) || !Character.isSpaceChar(s.charAt(end))) {
-                    return false;
+           loop: for(char c : s.toCharArray()){
+                if(!Character.isWhitespace(c))
+                {
+                    isWhiteSpace = false;
+                    break loop;
                 }
             }
-            return true;
-        }
-        return false;
-    }
 
+        }
+        return isWhiteSpace;
+    }
 
 }

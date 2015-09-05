@@ -14,6 +14,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 
+import javax.net.ssl.HttpsURLConnection;
+
 import menu.customiz.customizmenu.constants.ApiConstants;
 import menu.customiz.customizmenu.model.UserInfo;
 import menu.customiz.customizmenu.utils.StringUtils;
@@ -79,11 +81,12 @@ public class UserFetcher {
         try{
             String data="";
             StringBuilder jsonData = new StringBuilder();
-            URLConnection conn = url.openConnection();
+            HttpsURLConnection conn = (HttpsURLConnection)url.openConnection();
+            conn.setRequestProperty("Accept","application/json");
             InputStream stream = conn.getInputStream();
             BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
-
             while(null != (data = reader.readLine())){
+                Log.d(TAG, "Data4: " + data);
                 jsonData.append(data);
             }
             stream.close();
@@ -106,33 +109,38 @@ public class UserFetcher {
 
 
         if(!StringUtils.isNullOrWhitespace(userInfo.getFamilyName())){
-            appendParameter(ApiConstants.PATIENT_API_PARAMETER_FAMILY, userInfo.getFamilyName(), isFirst, url);
+            appendParameter(ApiConstants.PATIENT_API_PARAMETER_FAMILY, userInfo.getFamilyName(),isFirst, url);
+            isFirst = false;
         }
         if(!StringUtils.isNullOrWhitespace(userInfo.getGivenName())){
             appendParameter(ApiConstants.PATIENT_API_PARAMETER_GIVEN,userInfo.getGivenName(),isFirst,url);
+            isFirst = false;
         }
         if(!StringUtils.isNullOrWhitespace(userInfo.getAddress())){
             appendParameter(ApiConstants.PATIENT_API_PARAMETER_ADDRESS,userInfo.getAddress(),isFirst,url);
+            isFirst = false;
         }
         if(!StringUtils.isNullOrWhitespace(userInfo.getGender())){
             appendParameter(ApiConstants.PATIENT_API_PARAMETER_GENDER,userInfo.getGender(),isFirst,url);
+            isFirst = false;
         }
         if(!StringUtils.isNullOrWhitespace(userInfo.getTelecom())){
             appendParameter(ApiConstants.PATIENT_API_PARAMETER_TELECOM,userInfo.getTelecom(),isFirst,url);
+            isFirst = false;
         }
         if(!StringUtils.isNullOrWhitespace(userInfo.getBirthDate())){
             appendParameter(ApiConstants.PATIENT_API_PARAMETER_BIRTHDATE,userInfo.getTelecom(),isFirst,url);
+            isFirst = false;
         }
 
         return new URL(url.toString());
     }
 
-    private void appendParameter(String paramName, String paramValue, boolean isFirst, StringBuilder builder){
+
+    private void appendParameter(String paramName, String paramValue, boolean isFirst,StringBuilder builder){
 
         if(!isFirst)
             builder.append("&");
-        else
-            isFirst = false;
 
         builder.append(paramName);
         builder.append("=");

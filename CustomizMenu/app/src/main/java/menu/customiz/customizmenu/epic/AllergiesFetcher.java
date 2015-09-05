@@ -15,6 +15,8 @@ import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.net.ssl.HttpsURLConnection;
+
 import menu.customiz.customizmenu.constants.ApiConstants;
 
 /**
@@ -55,7 +57,8 @@ public class AllergiesFetcher {
         try {
             URL allergiesUrl = new URL(requestUrl);
 
-            URLConnection conn = allergiesUrl.openConnection();
+            HttpsURLConnection conn = (HttpsURLConnection)allergiesUrl.openConnection();
+            conn.setRequestProperty("Accept","application/json");
 
             String read="";
             StringBuilder readData = new StringBuilder();
