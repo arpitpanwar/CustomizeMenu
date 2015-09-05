@@ -1,68 +1,32 @@
 package menu.customiz.customizmenu.menu;
 
-import java.util.ArrayList;
-import java.util.List;
+import android.util.Log;
 
-import menu.customiz.customizmenu.ifaces.ICourse;
-import menu.customiz.customizmenu.ifaces.IIngredient;
-import menu.customiz.customizmenu.ifaces.IItem;
+import menu.customiz.customizmenu.epic.AllergiesFetcher;
+import menu.customiz.customizmenu.epic.UserFetcher;
 import menu.customiz.customizmenu.ifaces.IMenu;
-import menu.customiz.customizmenu.model.Course;
-import menu.customiz.customizmenu.model.Menu;
+import menu.customiz.customizmenu.model.UserInfo;
 
 /**
  * Created by Arpit on 9/5/2015.
  */
 public class MenuHandler {
 
-    private IMenu menu;
-    private List<String> allergies;
+    private static String TAG = MenuHandler.class.getCanonicalName();
 
-    public MenuHandler(IMenu menu,List<String> allergies){
-        this.menu = menu;
-        this.allergies = allergies;
+    public static void handle(String data,UserInfo userInfo){
+       try{
+             IMenu menu =  MenuParser.parse(data);
+             UserFetcher fetcher = new UserFetcher(userInfo);
+
+             AllergiesFetcher allergiesFetcher = new AllergiesFetcher(fetcher.fetchUserId());
+             FilteredMenuProvider filteredProvider =  new FilteredMenuProvider(menu,allergiesFetcher.getAllergies());
+
+            IMenu filteredMenu =  filteredProvider.getFilteredMenu();
+
+        }catch(Exception e){
+           Log.d(TAG,"Error handling data: "+e.getMessage());
+       }
     }
-
-    public IMenu filterMenu(){
-
-        Menu filteredMenu = new Menu();
-        filteredMenu.setRestaurantDescription(menu.getRestaurantDescription());
-        filteredMenu.setRestaurantName(menu.getRestaurantName());
-        filteredMenu.setCourseList(getFilteredCourses());
-
-        return filteredMenu;
-    }
-
-    private List<ICourse> getFilteredCourses(){
-
-        List<ICourse> courses = this.menu.getCourseList();
-        List<ICourse> filteredCourses = new ArrayList<ICourse>();
-        for(ICourse course : courses){
-
-            Course currCourse = new Course();
-
-            List<IItem> filteredItems = new ArrayList<IItem>();
-
-            for(IItem item: course.getItems()){
-              boolean isAccepted = true;
-              ingredientLoop:  for(IIngredient ingredient: item.getIngredients()){
-                                    if(this.allergies.contains(ingredient.getCommonName().toLowerCase())
-                                            || this.allergies.contains(ingredient.getName().toLowerCase()))
-                                    {
-                                        isAccepted = false;
-                                        break ingredientLoop;
-                                    }
-                }
-                if(isAccepted)
-                    filteredItems.add(item);
-            }
-            currCourse.setItems(filteredItems);
-            filteredCourses.add(currCourse);
-        }
-
-        return filteredCourses;
-    }
-
-
 
 }
