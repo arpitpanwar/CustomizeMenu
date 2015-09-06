@@ -8,19 +8,19 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
+public class AddCourse extends Activity {
 
-public class MainActivity extends Activity {
-
+    public final static String COURSE_NAME = "CourseName";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.front_layout);
+        setContentView(R.layout.activity_add_course);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_add_course, menu);
         return true;
     }
 
@@ -39,9 +39,12 @@ public class MainActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void openAddCourseActivity(View view)
+    public void displayItemsActivity(View view)
     {
-        Intent intent = new Intent(this, AddCourse.class);
+        Intent intent = new Intent(this, AddItemsActivity.class);
+        EditText editText = (EditText) findViewById(R.id.editText);
+        String courseName = editText.getText().toString();
+        intent.putExtra(COURSE_NAME, courseName);
         startActivity(intent);
     }
 }
