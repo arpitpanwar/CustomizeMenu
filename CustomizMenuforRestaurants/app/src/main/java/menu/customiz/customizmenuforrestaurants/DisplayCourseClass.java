@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import menu.customiz.customizmenuforrestaurants.model.Course;
+import menu.customiz.customizmenuforrestaurants.model.Item;
 import menu.customiz.customizmenuforrestaurants.model.RestaurantMenu;
 
 import static android.nfc.NdefRecord.createMime;
@@ -54,18 +55,24 @@ public class DisplayCourseClass extends Activity implements NfcAdapter.CreateNde
             finish();
             return;
         }
+
         // Register callback
         mNfcAdapter.setNdefPushMessageCallback(this, this);
         menu = getMenuForDisplay();
     }
 
     public void createData() {
-        for (int j = 0; j < 5; j++) {
-            Group group = new Group("Test " + j);
-            for (int i = 0; i < 5; i++) {
-                group.children.add("Sub Item" + i);
+        List<Course> allCourses = menu.getCourseList();
+        int j=0;
+        for(Course course:allCourses)
+        {
+            Group group = new Group(course.getCourseName());
+            for(Item item : course.getItems())
+            {
+                group.children.add(item.getName() +"\t\t" + item.getItemPrice());
             }
             groups.append(j, group);
+            ++j;
         }
     }
 
