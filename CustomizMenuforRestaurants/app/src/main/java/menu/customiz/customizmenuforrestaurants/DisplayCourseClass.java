@@ -73,7 +73,7 @@ public class DisplayCourseClass extends Activity implements NfcAdapter.CreateNde
             {
                 String data = item.getName() +"\t\t" + "$"+item.getItemPrice()+"\nIngredients: ";
                 List<Ingredient> ingredients = item.getIngredients();
-                data+=ingredients.get(0);
+                data+=ingredients.get(0).getName();
                 for(int i=1;i<ingredients.size();i++)
                 {
                     data+=", " + ingredients.get(i);
