@@ -12,7 +12,7 @@ public class RestaurantMenu implements IMenu {
 
     private String restaurantName;
     private String restaurantDescription;
-    private List<ICourse> courseList;
+    private List<Course> courseList;
 
     @Override
     public String getRestaurantName() {
@@ -25,7 +25,7 @@ public class RestaurantMenu implements IMenu {
     }
 
     @Override
-    public List<ICourse> getCourseList() {
+    public List<Course> getCourseList() {
         return courseList;
     }
 
@@ -37,7 +37,7 @@ public class RestaurantMenu implements IMenu {
         this.restaurantDescription = restaurantDescription;
     }
 
-    public void setCourseList(List<ICourse> courseList){
+    public void setCourseList(List<Course> courseList){
         this.courseList = courseList;
     }
 }

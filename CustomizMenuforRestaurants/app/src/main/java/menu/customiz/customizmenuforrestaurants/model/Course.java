@@ -14,12 +14,12 @@ public class Course implements ICourse {
         this.courseName = courseName;
     }
 
-    public void setItems(List<IItem> items) {
+    public void setItems(List<Item> items) {
         this.items = items;
     }
 
     private String courseName;
-    private List<IItem> items;
+    private List<Item> items;
 
     @Override
     public String getCourseName() {
@@ -27,7 +27,7 @@ public class Course implements ICourse {
     }
 
     @Override
-    public List<IItem> getItems() {
+    public List<Item> getItems() {
         return items;
     }
 }

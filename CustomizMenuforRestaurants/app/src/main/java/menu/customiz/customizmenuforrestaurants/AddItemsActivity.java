@@ -5,6 +5,7 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.JsonWriter;
 import android.util.Log;
 import android.util.Xml;
 import android.view.Menu;
@@ -14,14 +15,21 @@ import android.widget.EditText;
 import android.database.sqlite.*;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import org.json.JSONStringer;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+import menu.customiz.customizmenuforrestaurants.ifaces.ICourse;
 import menu.customiz.customizmenuforrestaurants.ifaces.IIngredient;
 import menu.customiz.customizmenuforrestaurants.ifaces.IItem;
 import menu.customiz.customizmenuforrestaurants.model.Course;
@@ -33,7 +41,7 @@ public class AddItemsActivity extends Activity {
 
     private RestaurantMenu restaurantMenu;
     private Course currentCourse;
-    private ArrayList<IItem> items = new ArrayList<IItem>();
+    private ArrayList<Item> items = new ArrayList<Item>();
     private SQLiteDatabase mydatabase;
     public final static String DATABASE_NAME = "RESTAURANTMENU";
     @Override
@@ -74,7 +82,7 @@ public class AddItemsActivity extends Activity {
         newItem.setItemPrice(Double.parseDouble(itemPrice.getText().toString()));
         EditText ingredients = (EditText) findViewById(R.id.editText3);
         String [] allIngredients = ingredients.getText().toString().split(",");
-        ArrayList<IIngredient> listOfIngredients = new ArrayList<IIngredient>();
+        ArrayList<Ingredient> listOfIngredients = new ArrayList<Ingredient>();
         for(String ing: allIngredients)
         {
             Ingredient cur = new Ingredient();
@@ -110,22 +118,17 @@ public class AddItemsActivity extends Activity {
         currentCourse = new Course();
         currentCourse.setCourseName(getIntent().getStringExtra(AddCourse.COURSE_NAME));
         currentCourse.setItems(items);
-        ByteArrayOutputStream bout = new ByteArrayOutputStream();
-        ObjectOutputStream oout = null;
-        try {
-            oout = new ObjectOutputStream(bout);
-            oout.writeObject(currentCourse);
-            oout.close();
+       try {
+            Gson gson = new Gson();
             ContentValues cv=new ContentValues();
-            cv.put("SerializedObject", bout.toString(Xml.Encoding.UTF_8.toString()));
+            cv.put("SerializedObject", gson.toJson(currentCourse));
             mydatabase.insert("COURSES", null, cv);
             Cursor resultSet = mydatabase.rawQuery("Select * from COURSES", null);
             resultSet.moveToFirst();
             String serObj = resultSet.getString(0);
             Log.d("Serialized string: ", serObj);
-            ByteArrayInputStream bin=new ByteArrayInputStream(serObj.getBytes());
-            ObjectInputStream ois = new ObjectInputStream(bin);
-            Course storedCourse = (Course)ois.readObject();
+            Type t = new TypeToken<Course>() {}.getType();
+            Course storedCourse = gson.fromJson(serObj, t);
             Log.d("Course name: ", storedCourse.getCourseName());
             int i=0;
             for(IItem item: storedCourse.getItems())
@@ -134,11 +137,9 @@ public class AddItemsActivity extends Activity {
                 Log.d("Item "+i, item.getName()+"\t\t"+item.getItemPrice());
             }
             //mydatabase.execSQL("INSERT INTO SerializedObject VALUES('"+bout.toString(Xml.Encoding.UTF_8.toString())+"');");
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+        } catch (Exception e){
+
+       }
         Toast.makeText(getApplicationContext(), "Course stored successfully", Toast.LENGTH_LONG).show();
     }
 
