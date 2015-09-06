@@ -118,7 +118,7 @@ public class NfcActivity extends Activity implements CreateNdefMessageCallback {
                 data+=ingredients.get(0).getName();
                 for(int i=1;i<ingredients.size();i++)
                 {
-                    data+=", " + ingredients.get(i);
+                    data+=", " + ingredients.get(i).getName();
                 }
                 group.children.add(data);
             }
