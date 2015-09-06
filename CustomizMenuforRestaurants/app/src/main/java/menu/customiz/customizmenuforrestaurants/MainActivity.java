@@ -44,4 +44,10 @@ public class MainActivity extends Activity {
         Intent intent = new Intent(this, AddCourse.class);
         startActivity(intent);
     }
+
+    public void displayMenu(View view)
+    {
+        Intent intent = new Intent(this, DisplayCourseClass.class);
+        startActivity(intent);
+    }
 }
