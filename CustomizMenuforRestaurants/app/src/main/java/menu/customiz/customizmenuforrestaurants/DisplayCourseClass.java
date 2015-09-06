@@ -44,6 +44,7 @@ public class DisplayCourseClass extends Activity implements NfcAdapter.CreateNde
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.display_course_layout);
+        menu = getMenuForDisplay();
         createData();
         ExpandableListView listView = (ExpandableListView) findViewById(R.id.listView);
         MyExpandableListAdapter adapter = new MyExpandableListAdapter(this,
@@ -59,7 +60,7 @@ public class DisplayCourseClass extends Activity implements NfcAdapter.CreateNde
 
         // Register callback
         mNfcAdapter.setNdefPushMessageCallback(this, this);
-        menu = getMenuForDisplay();
+
     }
 
     public void createData() {

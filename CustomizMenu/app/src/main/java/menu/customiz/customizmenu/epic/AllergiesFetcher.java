@@ -42,7 +42,7 @@ public class AllergiesFetcher {
         allergies = new ArrayList<String>();
 
         for(int i=0; i<total;i++){
-           allergies.add(entries.getJSONObject(i).getJSONObject("substance").getString("text").trim().toLowerCase());
+           allergies.add(entries.getJSONObject(i).getJSONObject("resource").getJSONObject("AllergyIntolerance").getJSONObject("substance").getString("text").trim().toLowerCase());
         }
 
     }catch(JSONException jse){
