@@ -1,4 +1,4 @@
-/**
+package menu.customiz.customizmenuforrestaurants; /**
  * Created by Ashmeet on 9/5/2015.
  */
 import android.app.Activity;
@@ -11,8 +11,6 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.CheckedTextView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import menu.customiz.customizmenuforrestaurants.R;
 
 public class MyExpandableListAdapter extends BaseExpandableListAdapter {
 

@@ -1,16 +1,11 @@
-/**
+package menu.customiz.customizmenuforrestaurants; /**
  * Created by Ashmeet on 9/5/2015.
  */
 
-import java.util.ArrayList;
-
-        import android.app.Activity;
-        import android.os.Bundle;
-        import android.util.SparseArray;
-        import android.view.Menu;
-        import android.widget.ExpandableListView;
-
-import menu.customiz.customizmenuforrestaurants.R;
+import android.app.Activity;
+import android.os.Bundle;
+import android.util.SparseArray;
+import android.widget.ExpandableListView;
 
 public class DisplayCourseClass extends Activity {
     // more efficient than HashMap for mapping integers to objects
