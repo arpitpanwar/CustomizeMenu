@@ -15,29 +15,31 @@
         android:text="Enter User Info."
         android:id="@+id/mainTitle"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:typeface="serif"/>
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
-        android:text="First Name"
         android:ems="10"
         android:id="@+id/firstNameTextField"
-        android:layout_marginTop="53dp"
+        android:layout_marginTop="55dp"
         android:layout_below="@+id/mainTitle"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:typeface="serif"/>
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
-        android:text="Last Name"
         android:ems="10"
         android:id="@+id/lastNameTextField"
         android:layout_below="@+id/firstNameTextField"
         android:layout_alignLeft="@+id/firstNameTextField"
-        android:layout_alignStart="@+id/firstNameTextField" />
+        android:layout_alignStart="@+id/firstNameTextField"
+        android:typeface="serif"/>
 
     <EditText
         android:layout_width="wrap_content"
@@ -48,7 +50,7 @@
         android:layout_below="@+id/lastNameTextField"
         android:layout_alignLeft="@+id/lastNameTextField"
         android:layout_alignStart="@+id/lastNameTextField"
-        android:text="Address" />
+        android:typeface="serif"/>
 
     <EditText
         android:layout_width="wrap_content"
@@ -59,7 +61,7 @@
         android:layout_below="@+id/addressTextField"
         android:layout_alignLeft="@+id/addressTextField"
         android:layout_alignStart="@+id/addressTextField"
-        android:text="Phone" />
+        android:typeface="serif"/>
 
     <EditText
         android:layout_width="wrap_content"
@@ -70,7 +72,7 @@
         android:layout_below="@+id/phoneNumberTextField"
         android:layout_alignLeft="@+id/phoneNumberTextField"
         android:layout_alignStart="@+id/phoneNumberTextField"
-        android:text="DoB" />
+        android:typeface="serif"/>
 
     <Spinner
         android:id="@+id/gender_spinner"
@@ -79,7 +81,7 @@
         android:layout_below="@+id/dobTextField"
         android:layout_alignLeft="@+id/dobTextField"
         android:layout_alignStart="@+id/dobTextField"
-        />
+        android:typeface="serif"/>
 
     <ViewAnimator
         android:layout_width="wrap_content"
@@ -87,7 +89,8 @@
         android:id="@+id/viewAnimator"
         android:layout_alignBottom="@+id/lastNameTextField"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:typeface="serif"/>
 
     <Button
         style="?android:attr/buttonStyleSmall"
@@ -98,6 +101,62 @@
         android:layout_below="@+id/gender_spinner"
         android:layout_alignLeft="@+id/gender_spinner"
         android:layout_alignStart="@+id/gender_spinner"
-        android:onClick="getUserInfoFromUI"/>
+        android:onClick="getUserInfoFromUI"
+        android:typeface="serif"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="First Name"
+        android:id="@+id/textView"
+        android:typeface="serif"
+        android:layout_above="@+id/lastNameTextField"
+        android:layout_toRightOf="@+id/viewAnimator"
+        android:layout_toEndOf="@+id/viewAnimator" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Last Name"
+        android:id="@+id/textView2"
+        android:layout_above="@+id/addressTextField"
+        android:layout_alignLeft="@+id/textView"
+        android:layout_alignStart="@+id/textView"
+        android:typeface="serif"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Address"
+        android:id="@+id/textView3"
+        android:layout_above="@+id/phoneNumberTextField"
+        android:layout_alignLeft="@+id/textView2"
+        android:layout_alignStart="@+id/textView2"
+        android:typeface="serif"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Phone"
+        android:id="@+id/textView4"
+        android:layout_above="@+id/dobTextField"
+        android:layout_alignLeft="@+id/textView3"
+        android:layout_alignStart="@+id/textView3"
+        android:typeface="serif"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="DOB"
+        android:id="@+id/textView5"
+        android:layout_above="@+id/gender_spinner"
+        android:layout_alignRight="@+id/textView4"
+        android:layout_alignEnd="@+id/textView4"
+        android:typeface="serif"/>
 
 </RelativeLayout>
