@@ -1,6 +1,7 @@
 package menu.customiz.customizmenu;
 
 import android.app.Activity;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,7 +12,12 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import java.util.List;
+
+import menu.customiz.customizmenu.SQLite.DbHelper;
+import menu.customiz.customizmenu.epic.AllergiesFetcher;
 import menu.customiz.customizmenu.epic.UserFetcher;
+import menu.customiz.customizmenu.menu.FilteredMenuProvider;
 import menu.customiz.customizmenu.model.UserInfo;
 
 
@@ -59,8 +65,8 @@ public class MainActivity extends Activity {
                 EditText dOB = (EditText)findViewById(R.id.dobTextField);
                 userInfo.setAddress(dOB.getText().toString().trim());
 
-                //Spinner gender = (Spinner)findViewById(R.id.gender_spinner);
-                //userInfo.setAddress(gender.g);
+                Spinner gender = (Spinner)findViewById(R.id.gender_spinner);
+                userInfo.setGender(gender.toString());
 
                 EditText telephone = (EditText)findViewById(R.id.phoneNumberTextField);
                 userInfo.setTelecom(telephone.getText().toString().trim());
@@ -69,6 +75,10 @@ public class MainActivity extends Activity {
                 String userId = fetcher.fetchUserId();
 
                 Log.d("userId", "User id is " + userId);
+
+                //DbHelper dbHelper = new DbHelper();
+
+
 
             }
         }).start();
