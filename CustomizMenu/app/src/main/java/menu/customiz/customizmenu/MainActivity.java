@@ -28,6 +28,8 @@ import menu.customiz.customizmenu.model.UserInfo;
 
 public class MainActivity extends Activity {
 
+    private SQLiteDatabase mydatabase;
+    public final static String DATABASE_NAME = "USERDB";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +42,7 @@ public class MainActivity extends Activity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 // Apply the adapter to the spinner
         spinner.setAdapter(adapter);
+        initializeSqliteDatabase();
 
     }
 
@@ -83,8 +86,11 @@ public class MainActivity extends Activity {
                 Log.d("userId", "User id is " + userId);
 
                 if((userId != null) && (!userId.equals(""))){
-
-                    DbHelper dbHelper = new DbHelper(getApplicationContext());
+                    ContentValues cv=new ContentValues();
+                    String serialized = userId +","+userInfo.getGivenName()+","+userInfo.getFamilyName();
+                    cv.put("SerializedObject", serialized);
+                    mydatabase.insert("PATIENT", null, cv);
+                    /*DbHelper dbHelper = new DbHelper(getApplicationContext());
                     SQLiteDatabase db = dbHelper.getWritableDatabase();
 
 
@@ -99,7 +105,7 @@ public class MainActivity extends Activity {
                             DatabaseUtils.sqlEscapeString("null") + ")", null);
 
 
-                    db.close();
+                    db.close();*/
 
                     //AllergiesFetcher allergiesFetcher = new AllergiesFetcher(userId);
                     //List<String> allergies = allergiesFetcher.getAllergies();
@@ -135,5 +141,11 @@ public class MainActivity extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void initializeSqliteDatabase()
+    {
+        mydatabase = openOrCreateDatabase(DATABASE_NAME,MODE_PRIVATE,null);
+        mydatabase.execSQL("CREATE TABLE IF NOT EXISTS PATIENT(SerializedObject VARCHAR);");
     }
 }

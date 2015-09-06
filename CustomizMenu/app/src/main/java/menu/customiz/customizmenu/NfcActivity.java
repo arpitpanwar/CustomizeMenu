@@ -162,8 +162,11 @@ public class NfcActivity extends Activity implements CreateNdefMessageCallback {
             Log.d("QUERY", c.getString(4));
             Log.d("QUERY", c.getString(5));
             Log.d("QUERY", c.getString(6));*/
-
-            AllergiesFetcher allergiesFetcher = new AllergiesFetcher("TSvxrNacr7Cv7KQXd2Y8lFXnKQyRbVPmWyfDobtXFBOsB");
+            SQLiteDatabase mydatabase = openOrCreateDatabase(MainActivity.DATABASE_NAME,MODE_PRIVATE,null);
+            Cursor resultSet = mydatabase.rawQuery("Select * from PATIENT", null);
+            resultSet.moveToFirst();
+            String [] values=resultSet.getString(0).split(",");
+            AllergiesFetcher allergiesFetcher = new AllergiesFetcher(values[0]);
 
             try {
                 Log.d("Before filtered menu", "Before filtered menu");
