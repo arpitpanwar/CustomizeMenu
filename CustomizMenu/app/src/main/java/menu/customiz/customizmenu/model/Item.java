@@ -11,7 +11,7 @@ import menu.customiz.customizmenu.ifaces.IItem;
 public class Item implements IItem{
 
     private double itemPrice;
-    private List<IIngredient> ingredients;
+    private List<Ingredient> ingredients;
     private double caloriesCount;
     private String name;
 
@@ -21,7 +21,7 @@ public class Item implements IItem{
     }
 
     @Override
-    public List<IIngredient> getIngredients() {
+    public List<Ingredient> getIngredients() {
         return ingredients;
     }
 
