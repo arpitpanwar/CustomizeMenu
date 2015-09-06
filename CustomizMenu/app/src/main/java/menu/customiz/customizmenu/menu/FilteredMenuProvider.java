@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import menu.customiz.customizmenu.ifaces.ICourse;
-import menu.customiz.customizmenu.ifaces.IIngredient;
-import menu.customiz.customizmenu.ifaces.IItem;
 import menu.customiz.customizmenu.ifaces.IMenu;
 import menu.customiz.customizmenu.model.Course;
+import menu.customiz.customizmenu.model.Ingredient;
+import menu.customiz.customizmenu.model.Item;
 import menu.customiz.customizmenu.model.Menu;
 
 /**
@@ -18,12 +18,12 @@ public class FilteredMenuProvider {
     private IMenu menu;
     private List<String> allergies;
 
-    public FilteredMenuProvider(IMenu menu, List<String> allergies){
+    public FilteredMenuProvider(Menu menu, List<String> allergies){
         this.menu = menu;
         this.allergies = allergies;
     }
 
-    public IMenu getFilteredMenu(){
+    public Menu getFilteredMenu(){
 
         Menu filteredMenu = new Menu();
         filteredMenu.setRestaurantDescription(menu.getRestaurantDescription());
@@ -33,19 +33,19 @@ public class FilteredMenuProvider {
         return filteredMenu;
     }
 
-    private List<ICourse> getFilteredCourses(){
+    private List<Course> getFilteredCourses(){
 
-        List<ICourse> courses = this.menu.getCourseList();
-        List<ICourse> filteredCourses = new ArrayList<ICourse>();
+        List<Course> courses = this.menu.getCourseList();
+        List<Course> filteredCourses = new ArrayList<Course>();
         for(ICourse course : courses){
 
             Course currCourse = new Course();
 
-            List<IItem> filteredItems = new ArrayList<IItem>();
+            List<Item> filteredItems = new ArrayList<Item>();
 
-            for(IItem item: course.getItems()){
+            for(Item item: course.getItems()){
               boolean isAccepted = true;
-              ingredientLoop:  for(IIngredient ingredient: item.getIngredients()){
+              ingredientLoop:  for(Ingredient ingredient: item.getIngredients()){
                                     if(this.allergies.contains(ingredient.getCommonName().toLowerCase())
                                             || this.allergies.contains(ingredient.getName().toLowerCase()))
                                     {
