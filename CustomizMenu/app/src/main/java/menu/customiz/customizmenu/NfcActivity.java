@@ -7,6 +7,8 @@ package menu.customiz.customizmenu;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
@@ -14,11 +16,14 @@ import android.nfc.NfcAdapter.CreateNdefMessageCallback;
 import android.nfc.NfcEvent;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.nio.charset.Charset;
 
 import menu.customiz.customizmenu.R;
+import menu.customiz.customizmenu.SQLite.DbHelper;
+import menu.customiz.customizmenu.epic.AllergiesFetcher;
 
 import static android.nfc.NdefRecord.createMime;
 
@@ -49,7 +54,7 @@ public class NfcActivity extends Activity implements CreateNdefMessageCallback {
                 "Beam Time: " + System.currentTimeMillis());
         NdefMessage msg = new NdefMessage(
                 new NdefRecord[] { createMime(
-                        "application/vnd.com.example.android.beam", text.getBytes())
+                        "text/menu.customiz", text.getBytes())
                         /**
                          * The Android Application Record (AAR) is commented out. When a device
                          * receives a push with an AAR in it, the application specified in the AAR
@@ -88,6 +93,31 @@ public class NfcActivity extends Activity implements CreateNdefMessageCallback {
         // only one message sent during the beam
         NdefMessage msg = (NdefMessage) rawMsgs[0];
         // record 0 contains the MIME type, record 1 is the AAR, if present
-        textView.setText(new String(msg.getRecords()[0].getPayload()));
+        //textView.setText(new String(msg.getRecords()[0].getPayload()));
+
+        /*TODO: Get allergy data and display menu*/
+
+        DbHelper dbHelper = new DbHelper(getApplicationContext());
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+
+
+        Cursor c = db.rawQuery("select * from Patient", null);
+        c.moveToFirst();
+        String userId = c.getString(0);
+        Log.d("QUERY", userId);
+        Log.d("QUERY", c.getString(1));
+        Log.d("QUERY", c.getString(2));
+        Log.d("QUERY", c.getString(3));
+        Log.d("QUERY", c.getString(4));
+        Log.d("QUERY", c.getString(5));
+        Log.d("QUERY", c.getString(6));
+
+        AllergiesFetcher allergiesFetcher = new AllergiesFetcher(userId);
+        //List<String> allergies =
+
+
+
+
+
     }
 }

@@ -19,5 +19,6 @@ public final class DBSchema {
         public static final String COLUMN_NAME_DOB = "dob";
         public static final String COLUMN_NAME_ADDRESS = "address";
         public static final String COLUMN_NAME_PHONE = "phone";
+        public static final String COLUMN_NAME_GENDER = "gender";
     }
 }

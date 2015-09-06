@@ -12,13 +12,14 @@ public class DbHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "Patient.db";
     private static final String SQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS " + DBSchema.DbEntry.TABLE_NAME;
-    private static final String SQL_CREATE_ENTRIES = "CREATE TABLE" + DBSchema.DbEntry.TABLE_NAME +"(" +
-            DBSchema.DbEntry._ID + " TEXT, " +
+    private static final String SQL_CREATE_ENTRIES = "CREATE TABLE " + DBSchema.DbEntry.TABLE_NAME +"(" +
+            DBSchema.DbEntry.COLUMN_NAME_ID + " TEXT, " +
             DBSchema.DbEntry.COLUMN_NAME_GIVEN_NAME + " TEXT, " +
             DBSchema.DbEntry.COLUMN_NAME_FAMILY_NAME + " TEXT, " +
             DBSchema.DbEntry.COLUMN_NAME_ADDRESS + " TEXT, " +
             DBSchema.DbEntry.COLUMN_NAME_DOB + " TEXT, " +
-            DBSchema.DbEntry.COLUMN_NAME_PHONE + " TEXT)";
+            DBSchema.DbEntry.COLUMN_NAME_PHONE + " TEXT, " +
+            DBSchema.DbEntry.COLUMN_NAME_GENDER + " TEXT)";
 
     public DbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);

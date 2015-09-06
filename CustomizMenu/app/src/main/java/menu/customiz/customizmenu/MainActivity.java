@@ -1,6 +1,9 @@
 package menu.customiz.customizmenu;
 
 import android.app.Activity;
+import android.content.ContentValues;
+import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -11,9 +14,11 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.util.List;
 
+import menu.customiz.customizmenu.SQLite.DBSchema;
 import menu.customiz.customizmenu.SQLite.DbHelper;
 import menu.customiz.customizmenu.epic.AllergiesFetcher;
 import menu.customiz.customizmenu.epic.UserFetcher;
@@ -60,26 +65,56 @@ public class MainActivity extends Activity {
                 userInfo.setFamilyName(familyName.getText().toString().trim());
 
                 EditText address = (EditText)findViewById(R.id.addressTextField);
-                userInfo.setAddress(address.getText().toString().trim());
+                userInfo.setAddress("");
 
                 EditText dOB = (EditText)findViewById(R.id.dobTextField);
-                userInfo.setAddress(dOB.getText().toString().trim());
+                userInfo.setBirthDate("");
 
                 Spinner gender = (Spinner)findViewById(R.id.gender_spinner);
-                userInfo.setGender(gender.toString());
+
+                userInfo.setGender("");
 
                 EditText telephone = (EditText)findViewById(R.id.phoneNumberTextField);
-                userInfo.setTelecom(telephone.getText().toString().trim());
+                userInfo.setTelecom("");
 
                 UserFetcher fetcher = new UserFetcher(userInfo);
                 String userId = fetcher.fetchUserId();
 
                 Log.d("userId", "User id is " + userId);
 
-                //DbHelper dbHelper = new DbHelper();
+                if((userId != null) && (!userId.equals(""))){
+
+                    DbHelper dbHelper = new DbHelper(getApplicationContext());
+                    SQLiteDatabase db = dbHelper.getWritableDatabase();
 
 
 
+                    db.rawQuery("INSERT INTO Patient(patientId, givenName, familyName, address, dob, phone, gender) VALUES(" +
+                            DatabaseUtils.sqlEscapeString(userId) + ", " +
+                            DatabaseUtils.sqlEscapeString(userInfo.getGivenName()) + ", " +
+                            DatabaseUtils.sqlEscapeString(userInfo.getFamilyName()) + ", " +
+                            DatabaseUtils.sqlEscapeString("null") + ", " +
+                            DatabaseUtils.sqlEscapeString("null") + ", " +
+                            DatabaseUtils.sqlEscapeString("null") + ", " +
+                            DatabaseUtils.sqlEscapeString("null") + ")", null);
+
+
+                    db.close();
+
+                    AllergiesFetcher allergiesFetcher = new AllergiesFetcher(userId);
+                    List<String> allergies = allergiesFetcher.getAllergies();
+                    Log.d("allergy", allergies.get(0));
+
+                    /*Cursor c = db.rawQuery("select * from Patient", null);
+                    c.moveToFirst();
+                    Log.d("QUERY", c.getString(0));
+                    Log.d("QUERY", c.getString(1));
+                    Log.d("QUERY", c.getString(2));
+                    Log.d("QUERY", c.getString(3));
+                    Log.d("QUERY", c.getString(4));
+                    Log.d("QUERY", c.getString(5));
+                    Log.d("QUERY", c.getString(6));*/
+                }
             }
         }).start();
 
