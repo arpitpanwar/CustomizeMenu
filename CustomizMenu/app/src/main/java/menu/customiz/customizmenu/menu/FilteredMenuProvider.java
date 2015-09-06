@@ -57,6 +57,7 @@ public class FilteredMenuProvider {
                     filteredItems.add(item);
             }
             currCourse.setItems(filteredItems);
+            currCourse.setCourseName(course.getCourseName());
             filteredCourses.add(currCourse);
         }
 

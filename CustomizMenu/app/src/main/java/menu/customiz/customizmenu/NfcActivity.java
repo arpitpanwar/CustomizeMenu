@@ -14,18 +14,25 @@ import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
 import android.nfc.NfcAdapter.CreateNdefMessageCallback;
 import android.nfc.NfcEvent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.Log;
+import android.util.SparseArray;
+import android.widget.ExpandableListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.nio.charset.Charset;
+import java.util.List;
 
 import menu.customiz.customizmenu.R;
 import menu.customiz.customizmenu.SQLite.DbHelper;
 import menu.customiz.customizmenu.epic.AllergiesFetcher;
 import menu.customiz.customizmenu.menu.FilteredMenuProvider;
 import menu.customiz.customizmenu.menu.MenuParser;
+import menu.customiz.customizmenu.model.Course;
+import menu.customiz.customizmenu.model.Ingredient;
+import menu.customiz.customizmenu.model.Item;
 import menu.customiz.customizmenu.model.Menu;
 
 import static android.nfc.NdefRecord.createMime;
@@ -34,6 +41,9 @@ import static android.nfc.NdefRecord.createMime;
 public class NfcActivity extends Activity implements CreateNdefMessageCallback {
     NfcAdapter mNfcAdapter;
     //TextView textView;
+
+    public Menu filteredMenu;
+    SparseArray<Group> groups = new SparseArray<Group>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -90,10 +100,45 @@ public class NfcActivity extends Activity implements CreateNdefMessageCallback {
      * Parses the NDEF Message from the intent and prints to the TextView
      */
     void processIntent(Intent intent) {
-        final Intent newIntent = intent;
-        new Thread(new Runnable() {
-            public void run() {
-            Parcelable[] rawMsgs = newIntent.getParcelableArrayExtra(
+        InfoFetcher fetcher = new InfoFetcher();
+        fetcher.execute(intent);
+          //List<String> allergies =
+    }
+
+    public void createData() {
+        List<Course> allCourses = filteredMenu.getCourseList();
+        int j=0;
+        for(Course course:allCourses)
+        {
+            Group group = new Group(course.getCourseName());
+            for(Item item : course.getItems())
+            {
+                String data = item.getName() +"\t\t" + "$"+item.getItemPrice()+"\nIngredients: ";
+                List<Ingredient> ingredients = item.getIngredients();
+                data+=ingredients.get(0).getName();
+                for(int i=1;i<ingredients.size();i++)
+                {
+                    data+=", " + ingredients.get(i);
+                }
+                group.children.add(data);
+            }
+            groups.append(j, group);
+            ++j;
+        }
+    }
+
+    public void Create(){
+        ExpandableListView listView = (ExpandableListView) findViewById(R.id.listView);
+        MyExpandableListAdapter adapter = new MyExpandableListAdapter(this,groups);
+        listView.setAdapter(adapter);
+    }
+
+    class InfoFetcher extends AsyncTask
+    {
+        @Override
+        protected Object doInBackground(Object[] params) {
+            Intent intent = (Intent)params[0];
+            Parcelable[] rawMsgs = intent.getParcelableArrayExtra(
                     NfcAdapter.EXTRA_NDEF_MESSAGES);
             // only one message sent during the beam
             NdefMessage msg = (NdefMessage) rawMsgs[0];
@@ -122,21 +167,28 @@ public class NfcActivity extends Activity implements CreateNdefMessageCallback {
 
             try {
                 Log.d("Before filtered menu", "Before filtered menu");
-                FilteredMenuProvider filteredMenuProvider = new FilteredMenuProvider(MenuParser.parse(new String(msg.getRecords()[0].getPayload())), allergiesFetcher.getAllergies());
+               Menu origMenu = MenuParser.parse(new String(msg.getRecords()[0].getPayload()));
+                List<String> allergies = allergiesFetcher.getAllergies();
+                FilteredMenuProvider filteredMenuProvider = new FilteredMenuProvider(origMenu, allergies);
                 Menu menu = filteredMenuProvider.getFilteredMenu();
-                Log.d("NFC", "Course name is " + menu.getCourseList().get(0).getCourseName());
-
+                return menu;
             } catch (Exception e) {
                 Log.d("NFC", "Unable to filter menu" + e.getStackTrace());
 
             }
+            return null;
+        }
 
+        @Override
+        protected void onPostExecute(Object o) {
+            if(o instanceof Menu){
+                Menu men = (Menu)o;
+                Log.d("NfcActivity","Menu fetched");
+                setContentView(R.layout.display_course_layout);
+                filteredMenu = men;
+                createData();
+                Create();
             }
-            }).start();
-        //List<String> allergies =
-
-
-
-
+        }
     }
 }
