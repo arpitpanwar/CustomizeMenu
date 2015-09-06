@@ -101,9 +101,9 @@ public class MainActivity extends Activity {
 
                     db.close();
 
-                    AllergiesFetcher allergiesFetcher = new AllergiesFetcher(userId);
-                    List<String> allergies = allergiesFetcher.getAllergies();
-                    Log.d("allergy", allergies.get(0));
+                    //AllergiesFetcher allergiesFetcher = new AllergiesFetcher(userId);
+                    //List<String> allergies = allergiesFetcher.getAllergies();
+                    //Log.d("allergy", allergies.get(1));
 
                     /*Cursor c = db.rawQuery("select * from Patient", null);
                     c.moveToFirst();
