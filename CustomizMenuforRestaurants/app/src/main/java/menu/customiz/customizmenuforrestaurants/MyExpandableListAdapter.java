@@ -12,6 +12,8 @@ import android.widget.CheckedTextView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import menu.customiz.customizmenuforrestaurants.model.Course;
+
 public class MyExpandableListAdapter extends BaseExpandableListAdapter {
 
     private final SparseArray<Group> groups;
