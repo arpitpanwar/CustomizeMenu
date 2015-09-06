@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import menu.customiz.customizmenuforrestaurants.model.Course;
+import menu.customiz.customizmenuforrestaurants.model.Ingredient;
 import menu.customiz.customizmenuforrestaurants.model.Item;
 import menu.customiz.customizmenuforrestaurants.model.RestaurantMenu;
 
@@ -69,7 +70,14 @@ public class DisplayCourseClass extends Activity implements NfcAdapter.CreateNde
             Group group = new Group(course.getCourseName());
             for(Item item : course.getItems())
             {
-                group.children.add(item.getName() +"\t\t" + item.getItemPrice());
+                String data = item.getName() +"\t\t" + "$"+item.getItemPrice()+"\nIngredients: ";
+                List<Ingredient> ingredients = item.getIngredients();
+                data+=ingredients.get(0);
+                for(int i=1;i<ingredients.size();i++)
+                {
+                    data+=", " + ingredients.get(i);
+                }
+                group.children.add(data);
             }
             groups.append(j, group);
             ++j;
